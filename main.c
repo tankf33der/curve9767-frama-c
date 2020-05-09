@@ -74,6 +74,6 @@ int main(void) {
 		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
     r|= curve9767_sign_verify_vartime(sig5, &Q5,
 		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
-    //printf("r:%d\n", r);
+    // r will be 1;
     return 0;
 }
