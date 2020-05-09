@@ -28,9 +28,20 @@ int main(void) {
     uint8_t tmp3[32];
     curve9767_scalar s3;
     for (size_t i = 0; i < 32; i++) {
-            seed3[i] = i;
+        seed3[i] = i;
     }
     curve9767_ecdh_keygen(&s3, tmp3, seed3, sizeof seed3);
+
+    //ecdh_recv
+    //XXX, scalar s3 above
+    uint8_t bk4[32];
+    uint8_t bQ4[32];
+    uint8_t tmp4[32];
+    for (size_t i = 0; i < 32; i++) {
+        bk4[i] = bQ4[i] =  i;
+    }
+    curve9767_ecdh_recv(tmp4, sizeof bk4, &s3, bQ4);
+
 
     return 0;
 }
