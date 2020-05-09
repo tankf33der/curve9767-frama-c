@@ -6,4 +6,10 @@ m: c
 u: c
 	clang -g -Wall -Wextra -fsanitize=undefined *.c && ./a.out
 c:
-	rm -rf *.o *.out
+	rm -rf *.o *.out mike.c
+ccomp:
+	ccomp mike.c && ./a.out
+mike:
+	cat *.c > mike.c
+interp:
+	ccomp -interp -quiet mike.c
