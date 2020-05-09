@@ -14,14 +14,23 @@ int main(void) {
     curve9767_hash_to_curve(&Q1, &sc1);
 
     //keygen
-    uint8_t seed[32];
-    uint8_t tmp[64];
+    uint8_t seed2[32];
+    uint8_t tmp2[64];
     curve9767_point Q2;
     curve9767_scalar s2;
     for (size_t i = 0; i < 32; i++) {
-        seed[i] = i;
+        seed2[i] = i;
     }
-    curve9767_keygen(&s2, tmp, &Q2, seed, sizeof seed);
+    curve9767_keygen(&s2, tmp2, &Q2, seed2, sizeof seed2);
+
+    // ecdh_keygen
+    uint8_t seed3[32];
+    uint8_t tmp3[32];
+    curve9767_scalar s3;
+    for (size_t i = 0; i < 32; i++) {
+            seed3[i] = i;
+    }
+    curve9767_ecdh_keygen(&s3, tmp3, seed3, sizeof seed3);
 
     return 0;
 }
