@@ -7,6 +7,7 @@ int main(void) {
     shake_context sc1;
     uint8_t mike[4] = "mike";
 
+/*
     // hash_to_curve - 1
     shake_init(&sc1, 256);
     shake_inject(&sc1, mike, 4);
@@ -22,6 +23,7 @@ int main(void) {
         seed2[i] = i;
     }
     curve9767_keygen(&s2, tmp2, &Q2, seed2, sizeof seed2);
+
 
     // ecdh_keygen - 3
     uint8_t seed3[32];
@@ -41,6 +43,8 @@ int main(void) {
         bk4[i] = bQ4[i] =  i;
     }
     curve9767_ecdh_recv(tmp4, sizeof bk4, &s3, bQ4);
+*/
+
 
     //sign_generate - 5
     //verify and vartime
@@ -75,5 +79,6 @@ int main(void) {
     r|= curve9767_sign_verify_vartime(sig5, &Q5,
 		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
     // r will be 1;
+
     return 0;
 }
