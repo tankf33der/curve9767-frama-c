@@ -7,13 +7,13 @@ int main(void) {
     shake_context sc1;
     uint8_t mike[4] = "mike";
 
-    // hash_to_curve
+    // hash_to_curve - 1
     shake_init(&sc1, 256);
     shake_inject(&sc1, mike, 4);
     shake_flip(&sc1);
     curve9767_hash_to_curve(&Q1, &sc1);
 
-    //keygen
+    //keygen - 2
     uint8_t seed2[32];
     uint8_t tmp2[64];
     curve9767_point Q2;
@@ -23,7 +23,7 @@ int main(void) {
     }
     curve9767_keygen(&s2, tmp2, &Q2, seed2, sizeof seed2);
 
-    // ecdh_keygen
+    // ecdh_keygen - 3
     uint8_t seed3[32];
     uint8_t tmp3[32];
     curve9767_scalar s3;
@@ -32,7 +32,7 @@ int main(void) {
     }
     curve9767_ecdh_keygen(&s3, tmp3, seed3, sizeof seed3);
 
-    //ecdh_recv
+    //ecdh_recv - 4
     //XXX, scalar s3 above
     uint8_t bk4[32];
     uint8_t bQ4[32];
@@ -41,6 +41,20 @@ int main(void) {
         bk4[i] = bQ4[i] =  i;
     }
     curve9767_ecdh_recv(tmp4, sizeof bk4, &s3, bQ4);
+
+    //sign_generate - 5
+    sha3_context sc5;
+    curve9767_point Q5;
+    curve9767_scalar s5;
+    uint8_t hv5[32];
+    uint8_t tmp5[64];
+    uint8_t t5[32];
+
+    sha3_init(&sc5, 256);
+    sha3_update(&sc5, mike, 4);
+    sha3_close(&sc5, hv5);
+	curve9767_sign_generate(tmp5, &s5, t5, &Q5,
+		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
 
 
     return 0;
