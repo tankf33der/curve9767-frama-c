@@ -1,5 +1,8 @@
 // ccomp helpers
 
+#include <stdlib.h>
+#include <stdint.h>
+
 void *
 memset(void *__s, int __c, size_t __n)
 {
