@@ -7,7 +7,6 @@ int main(void) {
     shake_context sc1;
     uint8_t mike[4] = "mike";
 
-/*
     // hash_to_curve - 1
     shake_init(&sc1, 256);
     shake_inject(&sc1, mike, 4);
@@ -43,9 +42,8 @@ int main(void) {
     }
     curve9767_ecdh_recv(tmp4, sizeof bk4, &s3, bQ4);
 
-*/
-
     //sign_generate - 5
+    //verify and vartime
     sha3_context sc5;
     curve9767_point Q5;
     curve9767_scalar s5;
@@ -54,26 +52,28 @@ int main(void) {
     uint8_t sig5 [64];
     uint8_t tmp5 [64];
     uint8_t t5   [32];
+    int r = 0;
 
     for (size_t i = 0; i < 64; i++) {
         sig5[i] = i;
     }
     for (size_t i = 0; i < 32; i++) {
         seed5[i] = i;
+        t5   [i] = i;
     }
 
 	curve9767_keygen(&s5, tmp5, &Q5, seed5, sizeof seed5);
 
-    //sha3_init(&sc5, 256);
-    //sha3_update(&sc5, mike, 4);
-    //sha3_close(&sc5, hv5);
+    sha3_init(&sc5, 256);
+    sha3_update(&sc5, mike, 4);
+    sha3_close(&sc5, hv5);
 
 	curve9767_sign_generate(sig5, &s5, t5, &Q5,
 		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
-//	curve9767_sign_verify(sig5, &Q5,
-//		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
-//    curve9767_sign_verify_vartime(sig5, &Q5,
-//		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
-
+	r |= curve9767_sign_verify(sig5, &Q5,
+		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
+    r|= curve9767_sign_verify_vartime(sig5, &Q5,
+		CURVE9767_OID_SHA3_256, hv5, sizeof hv5);
+    //printf("r:%d\n", r);
     return 0;
 }
