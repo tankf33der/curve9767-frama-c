@@ -593,3 +593,13 @@ sha3_close(sha3_context *sc, void *out)
 		buf[u] = sc->A[u >> 3] >> ((u & 7) << 3);
 	}
 }
+
+// mine
+// size is 224,256,384,512
+void sha3(void *out, unsigned size, const void *in, size_t len)
+{
+    sha3_context ctx;
+    sha3_init(&ctx, size);
+    sha3_update(&ctx, in, len);
+    sha3_close(&ctx, out);
+}
