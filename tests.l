@@ -42,5 +42,18 @@
                   (from "MD = ")
                   (setq C (hex2L (line)))
                   (test C (sha3 K ShaLen)) ) ) ) ) ) )
+
 (msg 'ok)
 (bye)
+
+#{
+// size 128 or 256
+void shake(void *out, size_t outlen, unsigned size, const void *in, size_t len)
+{
+    shake_context ctx;
+    shake_init(&ctx, size);
+    shake_inject(&ctx, in, len);
+    shake_flip(&ctx);
+    shake_extract(&ctx, out, outlen);
+}
+}#
