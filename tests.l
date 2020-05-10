@@ -18,6 +18,11 @@
          (if D (cons NIL (cons DL) D) 0)
          DL )
       R ) )
+# S is 128 or 256
+# OutLen for Variable tests
+(de shake (D S OutLen)
+   (default OutLen S)
+   (let (O (/ OutLen 8)  DL (length D)  R)
 (test
    (107 78 3 66 54 103 219 183 59 110 21 69 79 14 177 171 212 89 127 154 27 7 142 63 91 90 107 199)
    (sha3 NIL 224) )
