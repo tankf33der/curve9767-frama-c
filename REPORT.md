@@ -14,4 +14,4 @@ completed 13 tests
 Worst test result [rda].
 ```
 
-#### Goal achieved.
+#### Goal of the repo achieved.
