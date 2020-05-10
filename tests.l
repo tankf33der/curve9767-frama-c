@@ -23,9 +23,22 @@
 (de shake (D S OutLen)
    (default OutLen S)
    (let (O (/ OutLen 8)  DL (length D)  R)
+      (native
+         "libcurve9767.so.0"
+         "shake"
+         NIL
+         (cons 'R (cons (cons O 'B O)))
+         O
+         S
+         (if D (cons NIL (cons DL) D) 0)
+         DL)
+      R ) )
 (test
    (107 78 3 66 54 103 219 183 59 110 21 69 79 14 177 171 212 89 127 154 27 7 142 63 91 90 107 199)
    (sha3 NIL 224) )
+(test
+   (127 156 43 164 232 143 130 125 97 96 69 80 118 5 133 62)
+   (shake NIL 128) )
 (setq SHA3_Tests
    (quote
       "vectors/SHA3_224ShortMsg.rsp"
