@@ -49,6 +49,16 @@
       "vectors/SHA3_384LongMsg.rsp"
       "vectors/SHA3_512ShortMsg.rsp"
       "vectors/SHA3_512LongMsg.rsp" ) )
+(setq SHAKES
+   (quote
+      "vectors/SHAKE_128LongMsg.rsp"
+      "vectors/SHAKE_128ShortMsg.rsp"
+      "vectors/SHAKE_256LongMsg.rsp"
+      "vectors/SHAKE_256ShortMsg.rsp" ) )
+(setq VARIABLES
+   (quote
+      "vectors/SHAKE_128VariableOut.rsp"
+      "vectors/SHAKE_256VariableOut.rsp") )
 (use (K C)
    (for V SHA3_Tests
       (let ShaLen (len V)
@@ -60,18 +70,30 @@
                   (from "MD = ")
                   (setq C (hex2L (line)))
                   (test C (sha3 K ShaLen)) ) ) ) ) ) )
-
+(use (K C)
+   (for V SHAKES
+      (let ShaLen (len V)
+         (in V
+            (until (eof)
+               (and
+                  (from "Msg = ")
+                  (setq K (hex2L (line)))
+                  (from "Output = ")
+                  (setq C (hex2L (line)))
+                  (test C (shake K ShaLen)) ) ) ) ) ) )
+(use (K C N)
+   (for V VARIABLES
+      (let ShaLen (len V)
+         (in V
+            (until (eof)
+               (and
+                  (from "Outputlen = ")
+                  (setq N (read))
+                  (line)
+                  (from "Msg = ")
+                  (setq K (hex2L (line)))
+                  (from "Output = ")
+                  (setq C (hex2L (line)))
+                  (test C (shake K ShaLen N)) ) ) ) ) ) )
 (msg 'ok)
 (bye)
-
-#{
-// size 128 or 256
-void shake(void *out, size_t outlen, unsigned size, const void *in, size_t len)
-{
-    shake_context ctx;
-    shake_init(&ctx, size);
-    shake_inject(&ctx, in, len);
-    shake_flip(&ctx);
-    shake_extract(&ctx, out, outlen);
-}
-}#
