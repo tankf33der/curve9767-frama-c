@@ -13,3 +13,8 @@ mike:
 	cat *.c > mike.c
 interp:
 	ccomp -interp -quiet mike.c
+lib: c
+	gcc -fPIC -c sha3.c
+	gcc -shared -Wl,-soname,libcurve9767.so.0 -o libcurve9767.so.0 sha3.o -lc
+	sudo cp -uf libcurve9767.so.0 /usr/local/lib
+	sudo ldconfig
