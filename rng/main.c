@@ -11,6 +11,7 @@ int main(void)
 
     shake_init(&ctx, 256);
     shake_flip(&ctx);
+
     while (1) {
         for(size_t i = 0; i < 2048; i++) {
             shake_extract(&ctx, b, sizeof b);
